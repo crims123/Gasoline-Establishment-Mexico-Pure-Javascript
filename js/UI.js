@@ -1,5 +1,6 @@
 class UI {
     constructor() {
+         this.api = new Api();
          this.mapa = this.initializeMap();
     }
 
@@ -12,5 +13,12 @@ class UI {
              maxZoom: 18,
              }).addTo(map);
          return map;
+    }
+
+    showeStablishment() {
+        const dataStablishment = this.api.getDataInformation();
+        dataStablishment.then( (response) => {
+            console.log(response)
+        })
     }
 }
