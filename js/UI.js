@@ -18,12 +18,12 @@ class UI {
 
     showEstablishment() {
         const dataStablishment = this.api.getDataInformation();
-        dataStablishment.then( (response) => {
-            this.showMarkets(response);
+        dataStablishment.then(data => {
+            this.showMarkers(data);
         })
     }
 
-    showMarkets (data) {
+    showMarkers(data) {
         this.markers.clearLayers();
         data.forEach(item => {
             const { latitude, longitude, calle, regular, premium } = item;
@@ -34,10 +34,21 @@ class UI {
             `)
             // we create a new marker
             const marker = new L.marker([ parseFloat(latitude), parseFloat(longitude)]).bindPopup(popup)
-            console.log(marker)
             // we add the new market to a group of markers
             this.markers.addLayer(marker);
         })
         this.markers.addTo(this.mapa)
+    }
+
+    showSearchMarkers(keyword) {
+        const dataStablishment = this.api.getDataInformation();
+        dataStablishment.then(data => {
+            this.filterMarkers(keyword, data);
+        })
+    }
+
+    filterMarkers(keyword, data) {
+        const filterEstablishment = data.filter(item => item.calle.indexOf(keyword) !== -1);
+        this.showMarkers(filterEstablishment);
     }
 }
