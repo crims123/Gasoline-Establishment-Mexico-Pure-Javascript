@@ -27,8 +27,14 @@ class UI {
         this.markers.clearLayers();
         data.forEach(item => {
             const { latitude, longitude, calle, regular, premium } = item;
+            const popup = L.popup().setContent(`
+                <p><b>Direción:</b> ${calle}</p>
+                <p><b>Regular:</b> ${regular}</p>
+                <p><b>Premium:</b>${premium}</p>
+            `)
             // we create a new marker
-            const marker = new L.marker([ parseFloat(latitude), parseFloat(longitude)]);
+            const marker = new L.marker([ parseFloat(latitude), parseFloat(longitude)]).bindPopup(popup)
+            console.log(marker)
             // we add the new market to a group of markers
             this.markers.addLayer(marker);
         })
